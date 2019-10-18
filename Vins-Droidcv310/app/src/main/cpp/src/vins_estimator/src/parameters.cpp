@@ -52,7 +52,7 @@ int STEREO_TRACK;
 int EQUALIZE;
 int ROW;
 int COL;
-int FOCAL_LENGTH;
+double FOCAL_LENGTH;
 int FISHEYE;
 bool PUB_THIS_FRAME;
 

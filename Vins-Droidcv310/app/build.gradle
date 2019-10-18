@@ -2,18 +2,17 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.martin.ads.testopencv"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
-                //"-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang",
-                arguments "-DCMAKE_BUILD_TYPE=Release" ,"-DANDROID_STL=gnustl_static"
+                arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang", "-DANDROID_STL=c++_static"
+                //arguments "-DCMAKE_BUILD_TYPE=Release" ,"-DANDROID_STL=gnustl_static"
 //                cppFlags "-std=c++0x","-frtti", "-fexceptions"
                 cppFlags "-frtti -fexceptions -std=c++0x"
             }

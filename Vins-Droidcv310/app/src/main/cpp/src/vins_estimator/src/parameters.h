@@ -10,7 +10,7 @@
 #include <string>
 using namespace std;
 
-extern int FOCAL_LENGTH; //add
+extern double FOCAL_LENGTH; //add
 const int WINDOW_SIZE = 10;
 const int NUM_OF_CAM = 1;
 const int NUM_OF_F = 1000;
@@ -51,7 +51,7 @@ extern std::string IMU_TOPIC;
 //feature tracker section
 extern int ROW;
 extern int COL;
-extern int FOCAL_LENGTH;
+//extern double FOCAL_LENGTH;
 //const int NUM_OF_CAM = 1;
 
 

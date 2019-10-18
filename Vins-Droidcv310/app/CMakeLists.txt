@@ -125,6 +125,7 @@ find_library( android-lib android )
 
 # =================================================================
 ADD_DEFINITIONS(-DCERES_USE_OPENMP -DNDEBUG )#CERES_USE_OPENMP/CERES_NO_THREADS
+ADD_DEFINITIONS(-DLLVM_ENABLE_PROJECTS=openmp)
 #ADD_DEFINITIONS(-D_OPENMP)
 #ADD_DEFINITIONS(-DEIGEN_USE_BLAS)
 
@@ -178,11 +179,13 @@ set(vins_SRCS   src/main/cpp/native-lib.cpp
                 src/main/cpp/src/vins_estimator/src/draw_result/triangle.cpp)
 
 set_property(SOURCE ${vins_SRCS}
-               APPEND_STRING PROPERTY COMPILE_FLAGS "-O3 -fomit-frame-pointer -ffast-math")
+               APPEND_STRING PROPERTY COMPILE_FLAGS "-O3 -fomit-frame-pointer -ffast-math -fopenmp"
+        )
 
 # =================================================================
 
 add_library( native-lib SHARED ${vins_SRCS})
+set_target_properties(native-lib PROPERTIES LINK_FLAGS "-fopenmp=libomp")
 target_link_libraries( native-lib
                        opencv
                        lib_opencv_calib3d
@@ -211,6 +214,6 @@ target_link_libraries( native-lib
                        ${android-lib}
                        ${log-lib}
 
-                       gomp
+                       #gomp
                        #libqsml
                        )

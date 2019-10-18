@@ -1,6 +1,6 @@
 #include <jni.h>
 #include <opencv2/opencv.hpp>
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 #include <android/log.h>
 #include "../a2ir/phone_sensor.h"
 #include "../vins_estimator/src/estimator.h"
