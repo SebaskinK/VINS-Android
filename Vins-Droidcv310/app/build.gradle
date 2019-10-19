@@ -14,7 +14,7 @@ android {
                 arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang", "-DANDROID_STL=c++_static"
                 //arguments "-DCMAKE_BUILD_TYPE=Release" ,"-DANDROID_STL=gnustl_static"
 //                cppFlags "-std=c++0x","-frtti", "-fexceptions"
-                cppFlags "-frtti -fexceptions -std=c++0x"
+                cppFlags "-frtti -fexceptions -std=c++11"
             }
         }
         ndk{
