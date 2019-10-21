@@ -1,5 +1,8 @@
 package com.martin.ads.testopencv;
 
+import android.annotation.TargetApi;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
@@ -12,6 +15,7 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.WindowManager;
 
+import org.opencv.android.CameraActivity;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.JavaCameraView;
 import org.opencv.android.OpenCVLoader;
@@ -19,12 +23,20 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
 
-public class MainActivity extends Activity implements
+import java.util.Collections;
+import java.util.List;
+
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+public class MainActivity extends CameraActivity implements
         CameraBridgeViewBase.CvCameraViewListener2,
         GestureDetector.OnGestureListener,
         ScaleGestureDetector.OnScaleGestureListener,
         View.OnTouchListener {
 
+    private static final int READ_EXTERNAL_STORAGE_CODE = 100;
     private static final String    TAG = "MainActivity";
     private static final int IMG_Width = 640;
     private static final int IMG_Height = 360;
@@ -47,7 +59,7 @@ public class MainActivity extends Activity implements
     long currentTime = System.currentTimeMillis();
 
     static {
-        System.loadLibrary("opencv_java3");
+        System.loadLibrary("opencv_java4");
         System.loadLibrary("native-lib");
     }
 
@@ -56,6 +68,8 @@ public class MainActivity extends Activity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        Log.d(TAG, "onCreate");
 
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.tutorial2_activity_surface_view);
         mOpenCvCameraView.setVisibility(CameraBridgeViewBase.VISIBLE);
@@ -204,6 +218,10 @@ public class MainActivity extends Activity implements
     public void onScaleEnd(ScaleGestureDetector detector) {
 
         Log.d(TAG,"ScaleGestureDetector onScaleEnd");
+    }
+    @Override
+    protected List<? extends CameraBridgeViewBase> getCameraViewList() {
+        return Collections.singletonList(mOpenCvCameraView);
     }
 
     public native String stringFromJNI();

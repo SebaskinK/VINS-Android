@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.4.1)
 
 
 #配置加载native依赖
-include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/include/opencv)
+#include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/include/opencv2)
 
 include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/include/eigen3)
 include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/include/boost-1.53)
@@ -94,7 +94,7 @@ set_target_properties(lib_opencv_videostab PROPERTIES IMPORTED_LOCATION ${CMAKE_
 #set_target_properties(lib_libwebp PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/liblibwebp.a)
 
 add_library( opencv SHARED IMPORTED )
-set_target_properties(opencv PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libopencv_java3.so)
+set_target_properties(opencv PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libopencv_java4.so)
 
 #add_library(OpenCL SHARED IMPORTED)
 #set_target_properties(OpenCL PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libOpenCL.so)

@@ -26,6 +26,7 @@
 #include <iostream>
 #include <fstream>
 #include <chrono>
+#include <opencv2/imgproc/types_c.h>
 /****************** load image section ***********************/
 
 /****************** feature tracker section ***********************/

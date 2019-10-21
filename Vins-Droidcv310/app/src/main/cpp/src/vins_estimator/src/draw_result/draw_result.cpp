@@ -6,6 +6,7 @@
 //  Copyright © 2017 HKUST Aerial Robotics. All rights reserved.
 //
 
+#include <opencv2/core/types_c.h>
 #include "draw_result.hpp"
 
 DrawResult::DrawResult(float _pitch, float _roll, float _yaw, float _Tx, float _Ty, float _Tz)

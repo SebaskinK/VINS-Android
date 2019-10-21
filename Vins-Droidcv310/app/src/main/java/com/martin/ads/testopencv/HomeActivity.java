@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -37,7 +40,8 @@ public class HomeActivity extends AppCompatActivity {
                     ActivityCompat.requestPermissions(this,
                             new String[]{
                                     permission,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    READ_EXTERNAL_STORAGE
                             },
                             requestCode);
                 }
@@ -49,6 +53,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        Log.d("HomeActivity", "onRequestPermissionsResult" + requestCode);
         switch (requestCode) {
             case REQUEST_PERMISSION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

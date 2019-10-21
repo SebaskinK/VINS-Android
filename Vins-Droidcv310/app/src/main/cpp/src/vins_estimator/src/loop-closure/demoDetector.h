@@ -14,8 +14,8 @@
 #include <string>
 
 // OpenCV
-#include <opencv/cv.h>
-#include <opencv/highgui.h>
+#include <opencv2/core.hpp>
+#include <opencv2/highgui.hpp>
 
 // DLoopDetector and DBoW2
 #include "ThirdParty/DBoW/DBoW2.h"

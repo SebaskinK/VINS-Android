@@ -53,7 +53,8 @@ namespace a2ir{
         }
 
         //Get a reference to the sensor manager.
-        mpSensorManager = ASensorManager_getInstance();
+//        mpSensorManager = ASensorManager_getInstance();
+        mpSensorManager = ASensorManager_getInstanceForPackage("com.martin.ads.testopencv");
 
         //Start up the sensor looper thread
         pthread_mutex_init(&mSensorThreadReadyMutex, NULL);
@@ -302,7 +303,8 @@ namespace a2ir{
 
 
     bool PhoneSensor::IsGyroscopeAvailable(){
-        ASensorManager* pSensorManager = ASensorManager_getInstance();
+//        ASensorManager* pSensorManager = ASensorManager_getInstance();
+        ASensorManager* pSensorManager = ASensorManager_getInstanceForPackage("com.martin.ads.testopencv");
         ASensorRef gyroRef = ASensorManager_getDefaultSensor(pSensorManager,
                                                              ASENSOR_TYPE_GYROSCOPE);
         return (gyroRef != 0);
