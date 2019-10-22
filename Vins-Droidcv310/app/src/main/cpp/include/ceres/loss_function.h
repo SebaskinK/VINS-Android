@@ -75,8 +75,9 @@
 #ifndef CERES_PUBLIC_LOSS_FUNCTION_H_
 #define CERES_PUBLIC_LOSS_FUNCTION_H_
 
-#include <memory>
 #include "glog/logging.h"
+#include "ceres/internal/macros.h"
+#include "ceres/internal/scoped_ptr.h"
 #include "ceres/types.h"
 #include "ceres/internal/disable_warnings.h"
 
@@ -302,7 +303,7 @@ class CERES_EXPORT ComposedLoss : public LossFunction {
   virtual void Evaluate(double, double*) const;
 
  private:
-  std::unique_ptr<const LossFunction> f_, g_;
+  internal::scoped_ptr<const LossFunction> f_, g_;
   const Ownership ownership_f_, ownership_g_;
 };
 
@@ -330,8 +331,6 @@ class CERES_EXPORT ScaledLoss : public LossFunction {
   // ownership parameter.
   ScaledLoss(const LossFunction* rho, double a, Ownership ownership) :
       rho_(rho), a_(a), ownership_(ownership) { }
-  ScaledLoss(const ScaledLoss&) = delete;
-  void operator=(const ScaledLoss&) = delete;
 
   virtual ~ScaledLoss() {
     if (ownership_ == DO_NOT_TAKE_OWNERSHIP) {
@@ -341,9 +340,10 @@ class CERES_EXPORT ScaledLoss : public LossFunction {
   virtual void Evaluate(double, double*) const;
 
  private:
-  std::unique_ptr<const LossFunction> rho_;
+  internal::scoped_ptr<const LossFunction> rho_;
   const double a_;
   const Ownership ownership_;
+  CERES_DISALLOW_COPY_AND_ASSIGN(ScaledLoss);
 };
 
 // Sometimes after the optimization problem has been constructed, we
@@ -390,9 +390,6 @@ class CERES_EXPORT LossFunctionWrapper : public LossFunction {
       : rho_(rho), ownership_(ownership) {
   }
 
-  LossFunctionWrapper(const LossFunctionWrapper&) = delete;
-  void operator=(const LossFunctionWrapper&) = delete;
-
   virtual ~LossFunctionWrapper() {
     if (ownership_ == DO_NOT_TAKE_OWNERSHIP) {
       rho_.release();
@@ -419,8 +416,9 @@ class CERES_EXPORT LossFunctionWrapper : public LossFunction {
   }
 
  private:
-  std::unique_ptr<const LossFunction> rho_;
+  internal::scoped_ptr<const LossFunction> rho_;
   Ownership ownership_;
+  CERES_DISALLOW_COPY_AND_ASSIGN(LossFunctionWrapper);
 };
 
 }  // namespace ceres

@@ -36,13 +36,14 @@
 
 #include <cstddef>
 #include <map>
-#include <memory>
 #include <set>
 #include <vector>
 
 #include "ceres/context.h"
 #include "ceres/internal/disable_warnings.h"
+#include "ceres/internal/macros.h"
 #include "ceres/internal/port.h"
+#include "ceres/internal/scoped_ptr.h"
 #include "ceres/types.h"
 #include "glog/logging.h"
 
@@ -120,6 +121,14 @@ typedef internal::ResidualBlock* ResidualBlockId;
 class CERES_EXPORT Problem {
  public:
   struct CERES_EXPORT Options {
+    Options()
+        : cost_function_ownership(TAKE_OWNERSHIP),
+          loss_function_ownership(TAKE_OWNERSHIP),
+          local_parameterization_ownership(TAKE_OWNERSHIP),
+          enable_fast_removal(false),
+          disable_all_safety_checks(false),
+          context(NULL) {}
+
     // These flags control whether the Problem object owns the cost
     // functions, loss functions, and parameterizations passed into
     // the Problem. If set to TAKE_OWNERSHIP, then the problem object
@@ -127,9 +136,9 @@ class CERES_EXPORT Problem {
     // destruction. The destructor is careful to delete the pointers
     // only once, since sharing cost/loss/parameterizations is
     // allowed.
-    Ownership cost_function_ownership = TAKE_OWNERSHIP;
-    Ownership loss_function_ownership = TAKE_OWNERSHIP;
-    Ownership local_parameterization_ownership = TAKE_OWNERSHIP;
+    Ownership cost_function_ownership;
+    Ownership loss_function_ownership;
+    Ownership local_parameterization_ownership;
 
     // If true, trades memory for faster RemoveResidualBlock() and
     // RemoveParameterBlock() operations.
@@ -145,7 +154,7 @@ class CERES_EXPORT Problem {
     // The increase in memory usage is twofold: an additonal hash set per
     // parameter block containing all the residuals that depend on the parameter
     // block; and a hash set in the problem containing all residuals.
-    bool enable_fast_removal = false;
+    bool enable_fast_removal;
 
     // By default, Ceres performs a variety of safety checks when constructing
     // the problem. There is a small but measurable performance penalty to
@@ -156,22 +165,20 @@ class CERES_EXPORT Problem {
     //
     // WARNING: Do not set this to true, unless you are absolutely sure of what
     // you are doing.
-    bool disable_all_safety_checks = false;
+    bool disable_all_safety_checks;
 
     // A Ceres global context to use for solving this problem. This may help to
     // reduce computation time as Ceres can reuse expensive objects to create.
     // The context object can be NULL, in which case Ceres may create one.
     //
     // Ceres does NOT take ownership of the pointer.
-    Context* context = nullptr;
+    Context* context;
   };
 
   // The default constructor is equivalent to the
   // invocation Problem(Problem::Options()).
   Problem();
   explicit Problem(const Options& options);
-  Problem(const Problem&) = delete;
-  void operator=(const Problem&) = delete;
 
   ~Problem();
 
@@ -394,6 +401,11 @@ class CERES_EXPORT Problem {
 
   // Options struct to control Problem::Evaluate.
   struct EvaluateOptions {
+    EvaluateOptions()
+        : apply_loss_function(true),
+          num_threads(1) {
+    }
+
     // The set of parameter blocks for which evaluation should be
     // performed. This vector determines the order that parameter
     // blocks occur in the gradient vector and in the columns of the
@@ -426,9 +438,9 @@ class CERES_EXPORT Problem {
     // function. This is of use for example if the user wishes to
     // analyse the solution quality by studying the distribution of
     // residuals before and after the solve.
-    bool apply_loss_function = true;
+    bool apply_loss_function;
 
-    int num_threads = 1;
+    int num_threads;
   };
 
   // Evaluate Problem. Any of the output pointers can be NULL. Which
@@ -473,7 +485,8 @@ class CERES_EXPORT Problem {
  private:
   friend class Solver;
   friend class Covariance;
-  std::unique_ptr<internal::ProblemImpl> problem_impl_;
+  internal::scoped_ptr<internal::ProblemImpl> problem_impl_;
+  CERES_DISALLOW_COPY_AND_ASSIGN(Problem);
 };
 
 }  // namespace ceres

@@ -102,32 +102,16 @@ set_target_properties(opencv PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/sr
 add_library(lib-ceres STATIC IMPORTED)
 set_target_properties(lib-ceres PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libceres.a)
 
-add_library(lib-boost-filesystem STATIC IMPORTED)
-set_target_properties(lib-boost-filesystem PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libboost_filesystem-gcc-mt-1_53.a)
-
-add_library(lib-boost-program-options STATIC IMPORTED)
-set_target_properties(lib-boost-program-options PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libboost_program_options-gcc-mt-1_53.a)
-
-add_library(lib-boost-system STATIC IMPORTED)
-set_target_properties(lib-boost-system PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libboost_system-gcc-mt-1_53.a)
-
 #C++日志
 find_library( log-lib log )
 find_library( android-lib android )
-
-#QSML
-#add_library( libqsml SHARED IMPORTED )
-#sig
-#set_target_properties(libqsml PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libQSML-sequential-0.15.5.so)
-#mul
-#set_target_properties(libqsml PROPERTIES IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libQSML-0.15.5.so)
-
 
 # =================================================================
 ADD_DEFINITIONS(-DCERES_USE_TBB -DNDEBUG )#CERES_USE_OPENMP/CERES_NO_THREADS
 #ADD_DEFINITIONS(-DLLVM_ENABLE_PROJECTS=openmp)
 #ADD_DEFINITIONS(-D_OPENMP)
 #ADD_DEFINITIONS(-DEIGEN_USE_BLAS)
+ADD_DEFINITIONS(-DEIGEN_MAX_CPP_VER=11)
 
 set(vins_SRCS   src/main/cpp/native-lib.cpp
                 src/main/cpp/src/vins_estimator/src/estimator_node.cpp
@@ -207,13 +191,9 @@ target_link_libraries( native-lib
                        lib_opencv_videostab
 
                        lib-ceres
-                       lib-boost-filesystem
-                       lib-boost-program-options
-                       lib-boost-system
 
                        ${android-lib}
                        ${log-lib}
 
                        #gomp
-                       #libqsml
                        )

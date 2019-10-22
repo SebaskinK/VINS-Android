@@ -3,7 +3,7 @@
 
 #include "vector2.h"
 
-typedef Vector2<float> Vec2f_;
+typedef MyVector2<float> Vec2f_;
 
 class Edge
 {

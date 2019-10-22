@@ -36,8 +36,8 @@
 #include <numeric>
 #include <vector>
 
-#include <memory>
 #include "ceres/dynamic_cost_function.h"
+#include "ceres/internal/scoped_ptr.h"
 #include "ceres/jet.h"
 #include "glog/logging.h"
 
@@ -112,8 +112,8 @@ class DynamicAutoDiffCostFunction : public DynamicCostFunction {
                                                0);
 
     // Allocate scratch space for the strided evaluation.
-    std::vector<Jet<double, Stride>> input_jets(num_parameters);
-    std::vector<Jet<double, Stride>> output_jets(num_residuals());
+    std::vector<Jet<double, Stride> > input_jets(num_parameters);
+    std::vector<Jet<double, Stride> > output_jets(num_residuals());
 
     // Make the parameter pack that is sent to the functor (reused).
     std::vector<Jet<double, Stride>* > jet_parameters(num_parameter_blocks,
@@ -244,7 +244,7 @@ class DynamicAutoDiffCostFunction : public DynamicCostFunction {
   }
 
  private:
-  std::unique_ptr<CostFunctor> functor_;
+  internal::scoped_ptr<CostFunctor> functor_;
 };
 
 }  // namespace ceres

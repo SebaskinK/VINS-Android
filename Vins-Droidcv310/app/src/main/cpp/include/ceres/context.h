@@ -31,6 +31,8 @@
 #ifndef CERES_PUBLIC_CONTEXT_H_
 #define CERES_PUBLIC_CONTEXT_H_
 
+#include "ceres/internal/macros.h"
+
 namespace ceres {
 
 // A global context for processing data in Ceres.  This provides a mechanism to
@@ -42,13 +44,13 @@ namespace ceres {
 class Context {
  public:
   Context() {}
-  Context(const Context&) = delete;
-  void operator=(const Context&) = delete;
-
   virtual ~Context() {}
 
   // Creates a context object and the caller takes ownership.
   static Context* Create();
+
+ private:
+  CERES_DISALLOW_COPY_AND_ASSIGN(Context);
 };
 
 }  // namespace ceres
