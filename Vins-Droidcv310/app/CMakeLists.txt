@@ -157,6 +157,7 @@ set(vins_SRCS   src/main/cpp/native-lib.cpp
                 src/main/cpp/src/a2ir/log_util.cpp
                 src/main/cpp/src/a2ir/phone_sensor.cpp
                 src/main/cpp/src/a2ir/timer.cpp
+                src/main/cpp/src/a2ir/trace.cpp
 
                 src/main/cpp/src/vins_estimator/src/draw_result/delaunay.cpp
                 src/main/cpp/src/vins_estimator/src/draw_result/draw_result.cpp

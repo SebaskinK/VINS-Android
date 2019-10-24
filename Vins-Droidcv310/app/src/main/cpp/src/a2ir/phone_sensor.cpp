@@ -8,6 +8,7 @@
 #include "timer.h"
 //#include "vins/vins_main.hpp"
 #include "../vins_estimator/src/estimator.h"
+#include "trace.h"
 
 #define SENSOR_THREAD_LOOPER_WAIT 250
 
@@ -295,6 +296,11 @@ namespace a2ir{
                                         sensorEvent.vector.z;
 
         pSensorInstance->acc_gro.header =  PVR::Timer::GetSeconds();
+
+        char name[32];
+        snprintf(name, sizeof(name), "GRO%0.4f", pSensorInstance->acc_gro.header);
+        ATRACE_NAME(name);
+
         IMU_MSG tmp = pSensorInstance->acc_gro;
         receiveImu(tmp);
 

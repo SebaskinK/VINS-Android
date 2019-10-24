@@ -6,6 +6,7 @@
 #include "../vins_estimator/src/estimator.h"
 #include <time.h>
 #include <timer.h>
+#include <trace.h>
 #include "../a2ir/log_util.h"
 
 
@@ -28,6 +29,11 @@ void
 Java_com_martin_ads_testopencv_MainActivity_nativeProcessFrame(JNIEnv *, jobject, jlong ptrGray,
                                                                jlong ptrRgba) {
     double header = PVR::Timer::GetSeconds();
+
+    char name[32];
+    snprintf(name, sizeof(name), "IM%0.4f", header);
+    ATRACE_NAME(name);
+
     Mat &mGray = *(Mat *) ptrGray;
     Mat &mRgb = *(Mat *) ptrRgba;
     if (bVinsInitilized) {
@@ -123,7 +129,10 @@ Java_com_martin_ads_testopencv_MainActivity_scaleGestureRecognizer(
             estimator.drawresult.Fy = 50;
     }
 }
-
+//jint JNI_OnLoad(JavaVM* vm, void* reserved) {
+//    LOGD("JNI_OnLoad");
+//    //a2ir::ScopedTrace::trace_init();
+//}
 }//extern C
 
 
